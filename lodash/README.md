@@ -47,7 +47,9 @@ Running this through codeclimate.com generated a very low score due to high comp
 #### Initialization and first impressions
 I will use the lodash.core.js file even though it is quite new as it should demonstrate the fundamentals.
 
-My motivation for studying this was to add a method similar to pullAt() as a method on the lodash wrapper object which instead of mutating the aray returned a copy of the array with value at the index spliced out. I'm not aware of an existing function out there for this: one could perhaps call it sliceAt(). It would be used in place of `var arr = slice(0, i) + slice(i + 1)`.
+My motivation for studying this was to add a method similar to pullAt() as a method on the lodash wrapper object which instead of mutating the array and returning the removed elements returns a copy of the array with value at the index spliced out. I'm not aware of an existing function out there for this: one could perhaps call it sliceAt(). It would be used in place of `var arr = slice(0, i) + slice(i + 1)`. I did this using existing functions and it looked like this (wrapping a string):
+`_(string).toArray().reject(function(val, idx) { return i == idx} ).values().join(''))`
+which is an O(n) operation for no real reason.
 
 As I studied lodash, I found that figuring out how it was built up was a bit more complex than expected. The mixin method is called ([source L3389](https://github.com/lodash/lodash/blob/1ca0ea8b80feed37b75df6310e82893c89bf22e9/lodash.core.js#L3389)) to add functions to the lodash prototype. From there, the following functions are called: 
 
