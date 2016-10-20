@@ -9,3 +9,7 @@ Scribblings as I step through open-source
 ###### Purpose
 
 Plain English architectural overviews and control flows of open-source projects.
+
+###### Related projects
+* https://fossies.org
+* http://aosabook.org/en/index.html
