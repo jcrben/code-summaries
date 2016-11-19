@@ -4,6 +4,9 @@ Motivated by mysterious failures with no errors, I dove into the code:
   * [`req = requirejs = function (...)`](https://github.com/requirejs/requirejs/blob/2.1.20/require.js#L1732) is the main entry point
     * about 75 lines later this function is called with an empty object to create a "default context" of `_`
     * This is also where `configure()` happens
+    * this will go through the `newContext()` creation
+      - `context.makeRequire()` calls `context.nextTick()` which calls `requireMod = getModule(makeModuleMap(null, relMap));`       - however, inside `getModule()`,  `mod = getOwn(registry, id);` will return undefined
+      - this triggers `mod = registry[id] = new context.Module(depMap);` and registers the first module!
   * [`define = function (name, deps, callback)`](https://github.com/requirejs/requirejs/blob/2.1.20/require.js#L2019) is the next major path. It takes a bunch a module names and pushes them into `context.defQueue` with a companion `context.defQueueMap[name]`
   * at some point (TODO: figure out where), context.defQueue() items are loaded mainly through the [`Module() constructor function`](https://github.com/requirejs/requirejs/blob/2.1.20/require.js#L722)
     * [`getModule()`](https://github.com/requirejs/requirejs/blob/2.1.20/require.js#L499) and its load function.
